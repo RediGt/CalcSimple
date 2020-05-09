@@ -5,6 +5,7 @@ using System.Data;
 using System.Drawing;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 
@@ -12,6 +13,8 @@ namespace CalcSimple
 {
     public partial class CalcSimple : Form
     {
+
+        char decimalSeperator;
         public CalcSimple()
         {
             InitializeComponent();
@@ -20,6 +23,7 @@ namespace CalcSimple
 
         private void InitializeCalculator()
         {
+            decimalSeperator = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
             this.BackColor = Color.LightSeaGreen;
 
             string buttonName = null;
@@ -43,6 +47,10 @@ namespace CalcSimple
             {
                 Display.Text = button.Text;
             }
+            else if (Display.Text == "-0")
+            {
+                Display.Text = button.Text;
+            }
             else
             {
                 Display.Text += button.Text;
@@ -51,15 +59,15 @@ namespace CalcSimple
 
         private void buttonDecimal_Click(object sender, EventArgs e)
         {
-            bool weHaveDot = Display.Text.Contains(".");
+            bool weHaveDot = Display.Text.Contains(decimalSeperator);
             if (!weHaveDot) 
             {  
                 if (Display.Text == "")
             {
-                Display.Text += "0.";
+                Display.Text += "0" + decimalSeperator;
             }
             else
-                Display.Text += buttonDecimal.Text;
+                Display.Text += decimalSeperator;
             }
           
             
@@ -82,12 +90,12 @@ namespace CalcSimple
 
         private void buttonSign_Click(object sender, EventArgs e)
         {
-              string s = Display.Text;
+           /* string s = Display.Text;
               if (s.Substring(0, 1) != "-")
                   Display.Text = "-" + Display.Text;
               else
-                  Display.Text = s.Substring(1, s.Length-1);
-            /*try
+                  Display.Text = s.Substring(1, s.Length-1);*/
+            try
             {
                 double number = Convert.ToDouble(Display.Text);
                 number *= -1;
@@ -96,7 +104,7 @@ namespace CalcSimple
             catch 
             { 
             
-            }*/
+            }
         }
     }
 

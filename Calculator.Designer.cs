@@ -160,7 +160,7 @@
             this.buttonDecimal.Name = "buttonDecimal";
             this.buttonDecimal.Size = new System.Drawing.Size(75, 75);
             this.buttonDecimal.TabIndex = 11;
-            this.buttonDecimal.Text = ".";
+            this.buttonDecimal.Text = ",";
             this.buttonDecimal.UseVisualStyleBackColor = true;
             this.buttonDecimal.Click += new System.EventHandler(this.buttonDecimal_Click);
             // 
