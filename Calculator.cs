@@ -30,14 +30,23 @@ namespace CalcSimple
                 button = (Button)this.Controls[buttonName];
                 button.Text = i.ToString();
                 //button.Font = new Font("Tahome", 22f);
+                Display.Text = "0";
             }
            
         }
 
         private void Button_Click(object sender, EventArgs e)
         {
+          
             Button button = (Button)sender;
-            Display.Text += button.Text;
+            if (Display.Text == "0")
+            {
+                Display.Text = button.Text;
+            }
+            else
+            {
+                Display.Text += button.Text;
+            }
         }
 
         private void buttonDecimal_Click(object sender, EventArgs e)
@@ -59,17 +68,35 @@ namespace CalcSimple
         private void buttonBackspace_Click(object sender, EventArgs e)
         {
                 string s = Display.Text;
-                if (s.Length >= 1)
-                {
-                    s = s.Substring(0, s.Length - 1);
-                }
-               // else
-               // {
-                //    s = "";
-                //}
-
+            if (s.Length > 1)
+            {
+                s = s.Substring(0, s.Length - 1);
+            }
+            else
+            {
+                s = "0";
+            }    
                 Display.Text = s;
 
+        }
+
+        private void buttonSign_Click(object sender, EventArgs e)
+        {
+              string s = Display.Text;
+              if (s.Substring(0, 1) != "-")
+                  Display.Text = "-" + Display.Text;
+              else
+                  Display.Text = s.Substring(1, s.Length-1);
+            /*try
+            {
+                double number = Convert.ToDouble(Display.Text);
+                number *= -1;
+                Display.Text = Convert.ToString(number);
+            }
+            catch 
+            { 
+            
+            }*/
         }
     }
 
