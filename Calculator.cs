@@ -125,25 +125,25 @@ namespace CalcSimple
       
         private void buttonResult_Click(object sender, EventArgs e)
         {
-            numTwo = Convert.ToDouble(Display.Text);
-            
-
+            double result = 0;
+            numTwo = Convert.ToDouble(Display.Text);            
             if (operation == "+")
             {
-                Display.Text = Convert.ToString(numOne + numTwo);
+                result = numOne + numTwo;
             }
             else if (operation == "-")
             {
-                Display.Text = Convert.ToString(numOne - numTwo);
+                result = numOne - numTwo;
             }
             else if (operation == "x")
             {
-                Display.Text = Convert.ToString(numOne * numTwo);
+                result = numOne * numTwo; ;
             }
             else if (operation == "/")
             {
-                Display.Text = Convert.ToString(numOne / numTwo);
+                result = numOne / numTwo; ;
             }
+            Display.Text = result.ToString();
         }
 
     }
