@@ -46,6 +46,7 @@
             this.buttonSubstract = new System.Windows.Forms.Button();
             this.buttonMultiply = new System.Windows.Forms.Button();
             this.buttonDivide = new System.Windows.Forms.Button();
+            this.buttonResult = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -199,6 +200,7 @@
             this.buttonAdd.TabIndex = 15;
             this.buttonAdd.Text = "+";
             this.buttonAdd.UseVisualStyleBackColor = true;
+            this.buttonAdd.Click += new System.EventHandler(this.Operation_Click);
             // 
             // buttonSubstract
             // 
@@ -209,6 +211,7 @@
             this.buttonSubstract.TabIndex = 16;
             this.buttonSubstract.Text = "-";
             this.buttonSubstract.UseVisualStyleBackColor = true;
+            this.buttonSubstract.Click += new System.EventHandler(this.Operation_Click);
             // 
             // buttonMultiply
             // 
@@ -219,6 +222,7 @@
             this.buttonMultiply.TabIndex = 17;
             this.buttonMultiply.Text = "x";
             this.buttonMultiply.UseVisualStyleBackColor = true;
+            this.buttonMultiply.Click += new System.EventHandler(this.Operation_Click);
             // 
             // buttonDivide
             // 
@@ -229,12 +233,25 @@
             this.buttonDivide.TabIndex = 18;
             this.buttonDivide.Text = "/";
             this.buttonDivide.UseVisualStyleBackColor = true;
+            this.buttonDivide.Click += new System.EventHandler(this.Operation_Click);
+            // 
+            // buttonResult
+            // 
+            this.buttonResult.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonResult.Location = new System.Drawing.Point(12, 388);
+            this.buttonResult.Name = "buttonResult";
+            this.buttonResult.Size = new System.Drawing.Size(237, 75);
+            this.buttonResult.TabIndex = 19;
+            this.buttonResult.Text = "=";
+            this.buttonResult.UseVisualStyleBackColor = true;
+            this.buttonResult.Click += new System.EventHandler(this.buttonResult_Click);
             // 
             // CalcSimple
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(361, 500);
+            this.Controls.Add(this.buttonResult);
             this.Controls.Add(this.buttonDivide);
             this.Controls.Add(this.buttonMultiply);
             this.Controls.Add(this.buttonSubstract);
@@ -280,6 +297,7 @@
         private System.Windows.Forms.Button buttonSubstract;
         private System.Windows.Forms.Button buttonMultiply;
         private System.Windows.Forms.Button buttonDivide;
+        private System.Windows.Forms.Button buttonResult;
     }
 }
 

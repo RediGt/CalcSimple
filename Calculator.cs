@@ -15,6 +15,9 @@ namespace CalcSimple
     {
 
         char decimalSeperator;
+        double numOne = 0;
+        double numTwo = 0;
+        string operation;
         public CalcSimple()
         {
             InitializeComponent();
@@ -111,6 +114,38 @@ namespace CalcSimple
         {
 
         }
+
+        private void Operation_Click(object sender, EventArgs e)
+        {
+            //Button button = (Button)sender;
+            numOne = Convert.ToDouble(Display.Text);
+            Display.Text = string.Empty;
+            operation = ((Button)sender).Text;
+        }
+      
+        private void buttonResult_Click(object sender, EventArgs e)
+        {
+            numTwo = Convert.ToDouble(Display.Text);
+            
+
+            if (operation == "+")
+            {
+                Display.Text = Convert.ToString(numOne + numTwo);
+            }
+            else if (operation == "-")
+            {
+                Display.Text = Convert.ToString(numOne - numTwo);
+            }
+            else if (operation == "x")
+            {
+                Display.Text = Convert.ToString(numOne * numTwo);
+            }
+            else if (operation == "/")
+            {
+                Display.Text = Convert.ToString(numOne / numTwo);
+            }
+        }
+
     }
 
 }
