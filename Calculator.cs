@@ -22,6 +22,9 @@ namespace CalcSimple
         string expression;
         int lengthOfNumOne = 0;
         bool operationInserted = false;
+        bool scifiMode = false;
+        const int widthSmall = 360;
+        const int widhtLarge = 650;
         public CalcSimple()
         {
             InitializeComponent();
@@ -33,6 +36,7 @@ namespace CalcSimple
         //READING LOCAL DECIMAL SEPARATOR
             decimalSeperator = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
             this.BackColor = Color.LightSeaGreen;
+            this.Width = widthSmall;
 
         //NUBERING BUTTONS
             string buttonName = null;
@@ -160,6 +164,10 @@ namespace CalcSimple
                 {
                     numOne = numOne / numTwo;
                 }
+                else if (firstOperation == "^")
+                {
+                    numOne = Math.Pow(numOne, numTwo);
+                }
                 Display.Text = numOne.ToString();
                 lengthOfNumOne = Display.Text.Length;
                 Display.Text += secondOperation;
@@ -191,6 +199,10 @@ namespace CalcSimple
             {
                 numOne = numOne / numTwo; ;
             }
+            else if (firstOperation == "^")
+            {
+                numOne = Math.Pow(numOne, numTwo);
+            }
             Display.Text = numOne.ToString();
             operationInserted = false;
         }
@@ -202,6 +214,20 @@ namespace CalcSimple
             numOne = 0;
             numTwo = 0;
             operationInserted = false;
+        }
+
+        private void buttonSciFi_Click(object sender, EventArgs e)
+        {
+            if (scifiMode)
+            {
+                this.Width = widthSmall;
+                scifiMode = !scifiMode;
+            }
+            else
+            {
+                this.Width = widhtLarge;
+                scifiMode = !scifiMode;
+            }
         }
     }
 
