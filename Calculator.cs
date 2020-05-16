@@ -17,7 +17,11 @@ namespace CalcSimple
         char decimalSeperator;
         double numOne = 0;
         double numTwo = 0;
-        string operation;
+        string firstOperation;
+        string secondOperation;
+        string expression;
+        int lengthOfNumOne = 0;
+        bool operationInserted = false;
         public CalcSimple()
         {
             InitializeComponent();
@@ -126,33 +130,69 @@ namespace CalcSimple
         private void Operation_Click(object sender, EventArgs e)
         {
             //Button button = (Button)sender;
-            numOne = Convert.ToDouble(Display.Text);
-            Display.Text = string.Empty;
-            operation = ((Button)sender).Text;
+            if (!operationInserted)
+            {
+                lengthOfNumOne = Display.Text.Length;
+                numOne = Convert.ToDouble(Display.Text);           
+                firstOperation = ((Button)sender).Text;
+                Display.Text += firstOperation;
+                operationInserted = true;
+            }
+            else
+            {
+                secondOperation = ((Button)sender).Text;
+                expression = Display.Text.Substring(lengthOfNumOne + 1, Display.Text.Length - lengthOfNumOne - 1);
+                numTwo = Convert.ToDouble(expression);
+
+                if (firstOperation == "+")
+                {
+                    numOne = numOne + numTwo;
+                }
+                else if (firstOperation == "-")
+                {
+                    numOne = numOne - numTwo;
+                }
+                else if (firstOperation == "x")
+                {
+                    numOne = numOne * numTwo;
+                }
+                else if (firstOperation == "/")
+                {
+                    numOne = numOne / numTwo;
+                }
+                Display.Text = numOne.ToString();
+                lengthOfNumOne = Display.Text.Length;
+                Display.Text += secondOperation;
+                firstOperation = secondOperation;
+            }
+            
+            //Display.Text = string.Empty;
         }
       
         //GETTING RESULT
         private void buttonResult_Click(object sender, EventArgs e)
         {
             double result = 0;
-            numTwo = Convert.ToDouble(Display.Text);            
-            if (operation == "+")
+            expression = Display.Text.Substring(lengthOfNumOne + 1, Display.Text.Length - lengthOfNumOne - 1);
+            numTwo = Convert.ToDouble(expression);
+            if (firstOperation == "+")
             {
-                result = numOne + numTwo;
+                numOne = numOne + numTwo;
             }
-            else if (operation == "-")
+            else if (firstOperation == "-")
             {
-                result = numOne - numTwo;
+                numOne = numOne - numTwo;
             }
-            else if (operation == "x")
+            else if (firstOperation == "x")
             {
-                result = numOne * numTwo; ;
+                numOne = numOne * numTwo; ;
             }
-            else if (operation == "/")
+            else if (firstOperation == "/")
             {
-                result = numOne / numTwo; ;
+                numOne = numOne / numTwo; ;
             }
-            Display.Text = result.ToString();
+            Display.Text = numOne.ToString();
+            operationInserted = false;
         }
 
         //CLEAR TEXTBOX
@@ -161,6 +201,7 @@ namespace CalcSimple
             Display.Text = "0";
             numOne = 0;
             numTwo = 0;
+            operationInserted = false;
         }
     }
 
