@@ -25,10 +25,12 @@ namespace CalcSimple
         }
 
         private void InitializeCalculator()
-        {
+        {           
+        //READING LOCAL DECIMAL SEPARATOR
             decimalSeperator = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
             this.BackColor = Color.LightSeaGreen;
 
+        //NUBERING BUTTONS
             string buttonName = null;
             Button button = null;
             for (int i=0; i<10; i++)
@@ -42,6 +44,7 @@ namespace CalcSimple
            
         }
 
+        //READING DIGITS FROM BUTTONS
         private void Button_Click(object sender, EventArgs e)
         {
           
@@ -60,6 +63,7 @@ namespace CalcSimple
             }
         }
 
+        //ENSURE ONE DOT
         private void buttonDecimal_Click(object sender, EventArgs e)
         {
             bool weHaveDot = Display.Text.Contains(decimalSeperator);
@@ -76,6 +80,7 @@ namespace CalcSimple
             
         }
 
+        //DELETING THE DIGITS FROM TEXTBOX
         private void buttonBackspace_Click(object sender, EventArgs e)
         {
                 string s = Display.Text;
@@ -91,6 +96,7 @@ namespace CalcSimple
 
         }
 
+        //ADDING MINUS SIGN BEFORE THE NUMBER
         private void buttonSign_Click(object sender, EventArgs e)
         {
            /* string s = Display.Text;
@@ -110,11 +116,13 @@ namespace CalcSimple
             }
         }
 
+        //BY MISTAKE
         private void button10_Click(object sender, EventArgs e)
         {
 
         }
 
+        //IF OPERATION SING IS PRESSED
         private void Operation_Click(object sender, EventArgs e)
         {
             //Button button = (Button)sender;
@@ -123,6 +131,7 @@ namespace CalcSimple
             operation = ((Button)sender).Text;
         }
       
+        //GETTING RESULT
         private void buttonResult_Click(object sender, EventArgs e)
         {
             double result = 0;
@@ -146,6 +155,13 @@ namespace CalcSimple
             Display.Text = result.ToString();
         }
 
+        //CLEAR TEXTBOX
+        private void buttonClear_Click(object sender, EventArgs e)
+        {
+            Display.Text = "0";
+            numOne = 0;
+            numTwo = 0;
+        }
     }
 
 }
