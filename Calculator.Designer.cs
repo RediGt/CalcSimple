@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CalcSimple));
             this.button1 = new System.Windows.Forms.Button();
             this.Display = new System.Windows.Forms.TextBox();
             this.button2 = new System.Windows.Forms.Button();
@@ -51,6 +52,7 @@
             this.buttonPower = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
             this.buttonSciFi = new System.Windows.Forms.Button();
+            this.buttonSqrt = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // button1
@@ -293,11 +295,23 @@
             this.buttonSciFi.UseVisualStyleBackColor = true;
             this.buttonSciFi.Click += new System.EventHandler(this.buttonSciFi_Click);
             // 
+            // buttonSqrt
+            // 
+            this.buttonSqrt.Font = new System.Drawing.Font("Microsoft Sans Serif", 15.75F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.buttonSqrt.Location = new System.Drawing.Point(364, 145);
+            this.buttonSqrt.Name = "buttonSqrt";
+            this.buttonSqrt.Size = new System.Drawing.Size(75, 75);
+            this.buttonSqrt.TabIndex = 24;
+            this.buttonSqrt.Text = "Sqrt";
+            this.buttonSqrt.UseVisualStyleBackColor = true;
+            this.buttonSqrt.Click += new System.EventHandler(this.Operation_Click);
+            // 
             // CalcSimple
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(639, 500);
+            this.Controls.Add(this.buttonSqrt);
             this.Controls.Add(this.buttonSciFi);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.buttonPower);
@@ -321,8 +335,9 @@
             this.Controls.Add(this.button2);
             this.Controls.Add(this.Display);
             this.Controls.Add(this.button1);
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.Name = "CalcSimple";
-            this.Text = "Form1";
+            this.Text = "Calculator";
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -353,6 +368,7 @@
         private System.Windows.Forms.Button buttonPower;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Button buttonSciFi;
+        private System.Windows.Forms.Button buttonSqrt;
     }
 }
 

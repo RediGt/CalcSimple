@@ -37,6 +37,9 @@ namespace CalcSimple
             decimalSeperator = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
             this.BackColor = Color.LightSeaGreen;
             this.Width = widthSmall;
+            this.FormBorderStyle = FormBorderStyle.FixedSingle;
+            this.MaximizeBox = false;
+            this.StartPosition = FormStartPosition.CenterScreen;
 
         //NUBERING BUTTONS
             string buttonName = null;
@@ -142,6 +145,7 @@ namespace CalcSimple
                 Display.Text += firstOperation;
                 operationInserted = true;
             }
+            
             else
             {
                 secondOperation = ((Button)sender).Text;
@@ -168,6 +172,12 @@ namespace CalcSimple
                 {
                     numOne = Math.Pow(numOne, numTwo);
                 }
+               /* else if (firstOperation == "Sqrt" )
+                {
+                    numOne = Math.Sqrt(numOne);
+                    return;
+                }*/
+                
                 Display.Text = numOne.ToString();
                 lengthOfNumOne = Display.Text.Length;
                 Display.Text += secondOperation;
