@@ -35,11 +35,21 @@ namespace CalcSimple
         {           
         //READING LOCAL DECIMAL SEPARATOR
             decimalSeperator = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-            this.BackColor = Color.LightSeaGreen;
+           // this.BackColor = Color.LightSeaGreen;
             this.Width = widthSmall;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
             this.StartPosition = FormStartPosition.CenterScreen;
+           
+        //DESIGN    
+            foreach (Control c in this.Controls)
+                {
+                    c.BackColor =  Color.FromArgb(64, 65, 100);
+                }
+            this.BackColor = Color.FromArgb(40, 46, 68);
+            Display.BackColor = Color.FromArgb(40, 46, 68);
+            buttonResult.BackColor = Color.FromArgb(153, 65, 100);
+            label1.BackColor = Color.Transparent;
 
         //NUBERING BUTTONS
             string buttonName = null;
@@ -49,8 +59,9 @@ namespace CalcSimple
                 buttonName = "button" + i;
                 button = (Button)this.Controls[buttonName];
                 button.Text = i.ToString();
-                //button.Font = new Font("Tahome", 22f);
+                button.Font = new Font("Tahome", 22f);
                 Display.Text = "0";
+                button.BackColor = Color.FromArgb(40, 46, 68);
             }
            
         }
@@ -140,12 +151,17 @@ namespace CalcSimple
             if (!operationInserted)
             {
                 lengthOfNumOne = Display.Text.Length;
-                numOne = Convert.ToDouble(Display.Text);           
+                numOne = Convert.ToDouble(Display.Text);
                 firstOperation = ((Button)sender).Text;
                 Display.Text += firstOperation;
                 operationInserted = true;
+                if (firstOperation == "Sqrt")
+                {
+                    numOne = Math.Sqrt(numOne);
+                    Display.Text = numOne.ToString();
+                }
             }
-            
+
             else
             {
                 secondOperation = ((Button)sender).Text;
@@ -172,12 +188,12 @@ namespace CalcSimple
                 {
                     numOne = Math.Pow(numOne, numTwo);
                 }
-               /* else if (firstOperation == "Sqrt" )
-                {
-                    numOne = Math.Sqrt(numOne);
-                    return;
-                }*/
-                
+                /* else if (firstOperation == "Sqrt" )
+                 {
+                     numOne = Math.Sqrt(numOne);
+                     return;
+                 }*/
+
                 Display.Text = numOne.ToString();
                 lengthOfNumOne = Display.Text.Length;
                 Display.Text += secondOperation;
@@ -239,6 +255,14 @@ namespace CalcSimple
                 scifiMode = !scifiMode;
             }
         }
+
+        private void Display_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void buttonSubstract_BackColorChanged(object sender, EventArgs e)
+        { }
     }
 
 }
