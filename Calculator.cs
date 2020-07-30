@@ -135,7 +135,7 @@ namespace CalcSimple
                 Display.Text = Convert.ToString(number);
             }
             catch 
-            {            
+            {             
             }         
         }    
 
