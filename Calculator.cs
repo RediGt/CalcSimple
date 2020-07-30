@@ -19,12 +19,14 @@ namespace CalcSimple
         double numTwo = 0;
         string firstOperation;
         string secondOperation;
-        string expression;
+        string secondExpression;
         int lengthOfNumOne = 0;
         bool operationInserted = false;
         bool scifiMode = false;
+        bool illegalOperation = false;
+        bool dotInserted = false;
         const int widthSmall = 360;
-        const int widhtLarge = 650;
+        const int widhtLarge = 570;
         public CalcSimple()
         {
             InitializeComponent();
@@ -35,7 +37,7 @@ namespace CalcSimple
         {           
         //READING LOCAL DECIMAL SEPARATOR
             decimalSeperator = Convert.ToChar(Thread.CurrentThread.CurrentCulture.NumberFormat.NumberDecimalSeparator);
-           // this.BackColor = Color.LightSeaGreen;
+            this.BackColor = Color.Azure;
             this.Width = widthSmall;
             this.FormBorderStyle = FormBorderStyle.FixedSingle;
             this.MaximizeBox = false;
@@ -44,12 +46,17 @@ namespace CalcSimple
         //DESIGN    
             foreach (Control c in this.Controls)
                 {
-                    c.BackColor =  Color.FromArgb(64, 65, 100);
+                    c.BackColor =  Color.LightSteelBlue;
+                    c.ForeColor = Color.Black;
+                    c.TabStop = false;
                 }
-            this.BackColor = Color.FromArgb(40, 46, 68);
-            Display.BackColor = Color.FromArgb(40, 46, 68);
-            buttonResult.BackColor = Color.FromArgb(153, 65, 100);
+            Display.BackColor = Color.LightGray;
+            buttonResult.BackColor = Color.DarkSlateBlue;
             label1.BackColor = Color.Transparent;
+            buttonPi.Text = "\u03C0";
+            buttonSqrt.Text = "\u221A";
+            Display.Text = "0";
+
 
         //NUBERING BUTTONS
             string buttonName = null;
@@ -59,18 +66,16 @@ namespace CalcSimple
                 buttonName = "button" + i;
                 button = (Button)this.Controls[buttonName];
                 button.Text = i.ToString();
-                button.Font = new Font("Tahome", 22f);
-                Display.Text = "0";
-                button.BackColor = Color.FromArgb(40, 46, 68);
-            }
-           
+                button.Font = new Font("Tahome", 22f);               
+                button.BackColor = Color.LightBlue;
+            }           
         }
 
         //READING DIGITS FROM BUTTONS
         private void Button_Click(object sender, EventArgs e)
-        {
-          
+        {         
             Button button = (Button)sender;
+            EnableControls();
             if (Display.Text == "0")
             {
                 Display.Text = button.Text;
@@ -88,24 +93,27 @@ namespace CalcSimple
         //ENSURE ONE DOT
         private void buttonDecimal_Click(object sender, EventArgs e)
         {
-            bool weHaveDot = Display.Text.Contains(decimalSeperator);
-            if (!weHaveDot) 
-            {  
-                if (Display.Text == "")
+            if (!operationInserted && !(dotInserted = Display.Text.Contains(decimalSeperator)))
             {
-                Display.Text += "0" + decimalSeperator;
+                if (Display.Text == "")
+                {
+                    Display.Text += "0" + decimalSeperator;
+                }
+                else
+                    Display.Text += decimalSeperator;
             }
-            else
+
+            secondExpression = Display.Text.Substring(lengthOfNumOne + 1, Display.Text.Length - lengthOfNumOne - 1);
+            if (operationInserted && !(dotInserted = secondExpression.Contains(decimalSeperator)))
+            {              
                 Display.Text += decimalSeperator;
             }
-          
-            
         }
 
         //DELETING THE DIGITS FROM TEXTBOX
         private void buttonBackspace_Click(object sender, EventArgs e)
-        {
-                string s = Display.Text;
+        {           
+            string s = Display.Text;
             if (s.Length > 1)
             {
                 s = s.Substring(0, s.Length - 1);
@@ -114,18 +122,12 @@ namespace CalcSimple
             {
                 s = "0";
             }    
-                Display.Text = s;
-
+            Display.Text = s;
         }
 
         //ADDING MINUS SIGN BEFORE THE NUMBER
         private void buttonSign_Click(object sender, EventArgs e)
         {
-           /* string s = Display.Text;
-              if (s.Substring(0, 1) != "-")
-                  Display.Text = "-" + Display.Text;
-              else
-                  Display.Text = s.Substring(1, s.Length-1);*/
             try
             {
                 double number = Convert.ToDouble(Display.Text);
@@ -133,61 +135,37 @@ namespace CalcSimple
                 Display.Text = Convert.ToString(number);
             }
             catch 
-            { 
-            
-            }
-        }
-
-        //BY MISTAKE
-        private void button10_Click(object sender, EventArgs e)
-        {
-
-        }
+            {            
+            }         
+        }    
 
         //IF OPERATION SING IS PRESSED
         private void Operation_Click(object sender, EventArgs e)
         {
-            //Button button = (Button)sender;
+            EnableControls();
+            DisableOperationButtons();
             if (!operationInserted)
             {
                 lengthOfNumOne = Display.Text.Length;
                 numOne = Convert.ToDouble(Display.Text);
                 firstOperation = ((Button)sender).Text;
                 Display.Text += firstOperation;
-                operationInserted = true;
-                if (firstOperation == "Sqrt")
+                operationInserted = true;              
+
+                //SQRT---------------------------------------------------
+                if (firstOperation == "\u221A")//==Sqrt
                 {
                     numOne = Math.Sqrt(numOne);
                     Display.Text = numOne.ToString();
-                }
+                    operationInserted = false;
+                }                               
             }
-
             else
             {
+                //INPUT 2nd NUMBER
                 secondOperation = ((Button)sender).Text;
-                expression = Display.Text.Substring(lengthOfNumOne + 1, Display.Text.Length - lengthOfNumOne - 1);
-                numTwo = Convert.ToDouble(expression);
-
-                if (firstOperation == "+")
-                {
-                    numOne = numOne + numTwo;
-                }
-                else if (firstOperation == "-")
-                {
-                    numOne = numOne - numTwo;
-                }
-                else if (firstOperation == "x")
-                {
-                    numOne = numOne * numTwo;
-                }
-                else if (firstOperation == "/")
-                {
-                    numOne = numOne / numTwo;
-                }
-                else if (firstOperation == "^")
-                {
-                    numOne = Math.Pow(numOne, numTwo);
-                }
+                Calculate();
+                
                 /* else if (firstOperation == "Sqrt" )
                  {
                      numOne = Math.Sqrt(numOne);
@@ -198,39 +176,112 @@ namespace CalcSimple
                 lengthOfNumOne = Display.Text.Length;
                 Display.Text += secondOperation;
                 firstOperation = secondOperation;
-            }
-            
+            }           
             //Display.Text = string.Empty;
         }
       
         //GETTING RESULT
         private void buttonResult_Click(object sender, EventArgs e)
         {
-            double result = 0;
-            expression = Display.Text.Substring(lengthOfNumOne + 1, Display.Text.Length - lengthOfNumOne - 1);
-            numTwo = Convert.ToDouble(expression);
-            if (firstOperation == "+")
-            {
-                numOne = numOne + numTwo;
-            }
-            else if (firstOperation == "-")
-            {
-                numOne = numOne - numTwo;
-            }
-            else if (firstOperation == "x")
-            {
-                numOne = numOne * numTwo; ;
-            }
-            else if (firstOperation == "/")
-            {
-                numOne = numOne / numTwo; ;
-            }
-            else if (firstOperation == "^")
-            {
-                numOne = Math.Pow(numOne, numTwo);
-            }
-            Display.Text = numOne.ToString();
+            if (operationInserted)
+                Calculate();
+            else
+                numOne = Convert.ToDouble(Display.Text);
+            if (!illegalOperation)
+                Display.Text = numOne.ToString();
             operationInserted = false;
+            buttonDecimal.Enabled = false;
+            DisableNumButtons();
+        }
+
+        public void Calculate()
+        {
+            secondExpression = Display.Text.Substring(lengthOfNumOne + 1, Display.Text.Length - lengthOfNumOne - 1);
+            numTwo = Convert.ToDouble(secondExpression);
+            switch(firstOperation)
+            {
+                case "+":
+                    numOne = numOne + numTwo;
+                    break;
+                case "-":
+                    numOne = numOne - numTwo;
+                    break;
+                case "x":
+                    numOne = numOne * numTwo;
+                    break;
+                case "/":
+                    if (numTwo == 0)
+                    {
+                        DivisionByZero();
+                        break;
+                    }                      
+                    numOne = numOne / numTwo;
+                    break;
+                case "^":
+                    numOne = Math.Pow(numOne, numTwo);
+                    break;
+            }            
+            /* else if (firstOperation == "Sqrt" )
+                 {
+                     numOne = Math.Sqrt(numOne);
+                     return;
+                 }*/
+        }
+
+        private void DisplayResult()
+        {
+            
+        }
+
+        public void DivisionByZero()
+        {
+            illegalOperation = true;
+            Display.Text = "Division by 0!";
+
+            foreach (Control c in this.Controls)
+            {
+                c.Enabled = false;
+            }
+            buttonClear.Enabled = true;
+            Display.Enabled = true;
+        }
+
+        public void DisableOperationButtons()
+        {
+            buttonAdd.Enabled = false;
+            buttonCos.Enabled = false;
+            buttonCtg.Enabled = false;
+            buttonDivide.Enabled = false;
+            buttonLg.Enabled = false;
+            buttonLn.Enabled = false;
+            buttonLog.Enabled = false;
+            buttonMultiply.Enabled = false;
+            buttonPower.Enabled = false;
+            buttonResult.Enabled = false;
+            buttonSin.Enabled = false;
+            buttonSqrt.Enabled = false;
+            buttonSubstract.Enabled = false;
+            buttonTg.Enabled = false;
+        }
+
+        public void DisableNumButtons()
+        {
+            string buttonName = null;
+            Button button = null;
+            for (int i = 0; i < 10; i++)
+            {
+                buttonName = "button" + i;
+                button = (Button)this.Controls[buttonName];
+                button.Enabled = false;
+            }
+        }
+
+        public void EnableControls()
+        {
+            foreach (Control c in this.Controls)
+            {
+                c.Enabled = true;
+            }
         }
 
         //CLEAR TEXTBOX
@@ -240,8 +291,11 @@ namespace CalcSimple
             numOne = 0;
             numTwo = 0;
             operationInserted = false;
+            illegalOperation = false;
+            EnableControls();
         }
 
+        //SCi Fi MODE
         private void buttonSciFi_Click(object sender, EventArgs e)
         {
             if (scifiMode)
@@ -255,14 +309,24 @@ namespace CalcSimple
                 scifiMode = !scifiMode;
             }
         }
-
-        private void Display_TextChanged(object sender, EventArgs e)
+        //BUTTON PI
+        private void button14_Click(object sender, EventArgs e)
         {
-
+            double pi = Math.PI;
+            if (Display.Text == "0")
+            {
+                Display.Text = pi.ToString();
+            }
+            else if (Display.Text == "-0")
+            {
+                Display.Text = pi.ToString();
+            }
+            else
+            {
+                Display.Text += pi.ToString();
+            }
+            
         }
-
-        private void buttonSubstract_BackColorChanged(object sender, EventArgs e)
-        { }
     }
 
 }
