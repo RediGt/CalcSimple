@@ -114,9 +114,23 @@ namespace CalcSimple
         private void buttonBackspace_Click(object sender, EventArgs e)
         {           
             string s = Display.Text;
-            if (s.Length > 1)
+            if (s.Length > lengthOfNumOne + 2)
             {
                 s = s.Substring(0, s.Length - 1);
+                numTwo = Convert.ToDouble(s.Substring(lengthOfNumOne + 1, s.Length - lengthOfNumOne - 1));
+            }
+            else if (s.Length == lengthOfNumOne + 2)
+            {
+                s = s.Substring(0, s.Length - 1);
+                numTwo = 0;
+                EnableControls();
+                DisableOperationButtons();
+            }           
+            else if (s.Length > 1)
+            {
+                s = s.Substring(0, s.Length - 1);
+                operationInserted = false;
+                buttonDecimal.Enabled = true;
             }
             else
             {
@@ -227,12 +241,7 @@ namespace CalcSimple
                      return;
                  }*/
         }
-
-        private void DisplayResult()
-        {
-            
-        }
-
+      
         public void DivisionByZero()
         {
             illegalOperation = true;
@@ -298,7 +307,7 @@ namespace CalcSimple
         //SCi Fi MODE
         private void buttonSciFi_Click(object sender, EventArgs e)
         {
-            if (scifiMode)
+            /*if (scifiMode)
             {
                 this.Width = widthSmall;
                 scifiMode = !scifiMode;
@@ -307,7 +316,7 @@ namespace CalcSimple
             {
                 this.Width = widhtLarge;
                 scifiMode = !scifiMode;
-            }
+            }*/
         }
         //BUTTON PI
         private void button14_Click(object sender, EventArgs e)
