@@ -142,15 +142,24 @@ namespace CalcSimple
         //ADDING MINUS SIGN BEFORE THE NUMBER
         private void buttonSign_Click(object sender, EventArgs e)
         {
-            try
+            if (!operationInserted)
             {
                 double number = Convert.ToDouble(Display.Text);
                 number *= -1;
                 Display.Text = Convert.ToString(number);
             }
-            catch 
-            {             
-            }         
+            else if (numOne < 0)
+            {
+                numOne *= -1;
+                Display.Text = Display.Text.Substring(1);
+                lengthOfNumOne -= 1;
+            }
+            else
+            {
+                numOne *= -1;
+                Display.Text = "-" + Display.Text;
+                lengthOfNumOne += 1;
+            }   
         }    
 
         //IF OPERATION SING IS PRESSED
@@ -319,8 +328,10 @@ namespace CalcSimple
             }*/
         }
         //BUTTON PI
+        
         private void button14_Click(object sender, EventArgs e)
         {
+            /*
             double pi = Math.PI;
             if (Display.Text == "0")
             {
@@ -334,7 +345,7 @@ namespace CalcSimple
             {
                 Display.Text += pi.ToString();
             }
-            
+            */
         }
     }
 
